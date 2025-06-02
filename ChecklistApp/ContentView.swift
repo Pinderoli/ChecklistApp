@@ -20,11 +20,6 @@ struct ContentView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
             
-            CreateListView()
-                .tabItem {
-                    Label("Create", systemImage: "plus.circle")
-                }
-            
             NotificationView()
                 .tabItem {
                     Label("Notifications", systemImage: "bell")

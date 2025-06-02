@@ -8,22 +8,42 @@
 import SwiftUI
 
 struct MyListsView: View {
-    @State private var items = [
-        ChecklistItem(title: "Buy milk", isChecked: false),
-        ChecklistItem(title: "Socks", isChecked: false),
-        ChecklistItem(title: "Phone Charger", isChecked: false)
-    ]
+    
+    @State private var showingCreateList = false
+    @State private var checklists: [Checklist] = []
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach($items) { $item in
-                    Toggle(isOn: $item.isChecked) {
-                        Text(item.title)
+            VStack {
+                if checklists.isEmpty {
+                    Text("No lists yet!")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .padding(.top, 40)
+                    Spacer()
+                } else {
+                    List {
+                        ForEach($checklists) { $checklist in
+                            NavigationLink(destination: ChecklistDetailView(checklist: $checklist)) {
+                                Text(checklist.title)
+                            }
+                        }
                     }
                 }
             }
             .navigationTitle("My Lists")
+            .navigationBarItems(trailing: Button("Create List") {
+                showingCreateList.toggle()
+            })
+            .sheet(isPresented: $showingCreateList) {
+                CreateListView { newChecklist in
+                        checklists.append(newChecklist)
+                }
+            }
         }
     }
+}
+
+#Preview {
+    MyListsView()
 }
