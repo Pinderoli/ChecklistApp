@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Checklist: Identifiable {
-    let id = UUID()
+struct Checklist: Identifiable, Encodable, Decodable {
+    var id = UUID()
     var title: String
     var items: [ChecklistItem]
 }

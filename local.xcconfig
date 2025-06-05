@@ -1,0 +1,9 @@
+//
+//  marc.xcconfig
+//  ChecklistApp
+//
+//  Created by Marc Pinder on 05/06/2025.
+//
+
+#include "ChecklistApp.xcconfig"
+DEVELOPMENT_TEAM = SAM7M445SP
