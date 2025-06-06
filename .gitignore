@@ -2,4 +2,6 @@
 xcuserdata/
 .DS_Store
 local.xcconfig
-UserInterfaceState.xcuserstate
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
