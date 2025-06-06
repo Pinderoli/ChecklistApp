@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D4C7B69E2DF1F095000421CE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D4C7B69D2DF1F090000421CE /* .gitignore */; };
+		D4C7B6A02DF1F156000421CE /* ChecklistApp.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D4C7B69F2DF1F14F000421CE /* ChecklistApp.xcconfig */; };
+		D4C7B6A22DF1F17E000421CE /* local.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D4C7B6A12DF1F172000421CE /* local.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D1A12FF12DE9FEEE00621F92 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +33,9 @@
 		D1A12FE32DE9FEED00621F92 /* ChecklistApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChecklistApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1A12FF02DE9FEEE00621F92 /* ChecklistAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChecklistAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1A12FFA2DE9FEEE00621F92 /* ChecklistAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChecklistAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4C7B69D2DF1F090000421CE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D4C7B69F2DF1F14F000421CE /* ChecklistApp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ChecklistApp.xcconfig; sourceTree = "<group>"; };
+		D4C7B6A12DF1F172000421CE /* local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = local.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +84,9 @@
 		D1A12FDA2DE9FEEC00621F92 = {
 			isa = PBXGroup;
 			children = (
+				D4C7B6A12DF1F172000421CE /* local.xcconfig */,
+				D4C7B69F2DF1F14F000421CE /* ChecklistApp.xcconfig */,
+				D4C7B69D2DF1F090000421CE /* .gitignore */,
 				D1A12FE52DE9FEED00621F92 /* ChecklistApp */,
 				D1A12FF32DE9FEEE00621F92 /* ChecklistAppTests */,
 				D1A12FFD2DE9FEEE00621F92 /* ChecklistAppUITests */,
@@ -212,6 +224,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C7B69E2DF1F095000421CE /* .gitignore in Resources */,
+				D4C7B6A02DF1F156000421CE /* ChecklistApp.xcconfig in Resources */,
+				D4C7B6A22DF1F17E000421CE /* local.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +286,7 @@
 /* Begin XCBuildConfiguration section */
 		D1A130022DE9FEEE00621F92 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4C7B6A12DF1F172000421CE /* local.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -335,6 +351,7 @@
 		};
 		D1A130032DE9FEEE00621F92 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4C7B6A12DF1F172000421CE /* local.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
