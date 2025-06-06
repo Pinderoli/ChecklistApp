@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct MyListsView: View {
-    
     @State private var showingCreateList = false
-    @State private var checklists: [Checklist] = []
-    
-    private let checklistsKey = "SavedChecklists"
+    @EnvironmentObject var store: ChecklistStore
     
     private func deleteChecklists(at offsets: IndexSet) {
         checklists.remove(atOffsets: offsets)
@@ -22,7 +19,7 @@ struct MyListsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                if checklists.isEmpty {
+                if store.checklists.isEmpty {
                     Text("No lists yet!")
                         .font(.headline)
                         .foregroundColor(.gray)
@@ -30,7 +27,8 @@ struct MyListsView: View {
                     Spacer()
                 } else {
                     List {
-                        ForEach($checklists) { $checklist in
+
+                        ForEach($store.checklists) { $checklist in
                             NavigationLink (destination: ChecklistDetailView (checklist: $checklist, onChecklistChange: saveChecklists)) {
                                 Text(checklist.title)
                             }
@@ -47,28 +45,9 @@ struct MyListsView: View {
             })
             .sheet(isPresented: $showingCreateList) {
                 CreateListView { newChecklist in
-                    checklists.append(newChecklist)
-                    saveChecklists()
+                    store.add(newChecklist)
                 }
             }
-            .onAppear {
-                loadChecklists()
-            }
-        }
-    }
-    
-    // MARK: - Persistence
-    
-    private func saveChecklists() {
-        if let encoded = try? JSONEncoder().encode(checklists) {
-            UserDefaults.standard.set(encoded, forKey: checklistsKey)
-        }
-    }
-
-    private func loadChecklists() {
-        if let savedData = UserDefaults.standard.data(forKey: checklistsKey),
-           let decoded = try? JSONDecoder().decode([Checklist].self, from: savedData) {
-            checklists = decoded
         }
     }
 }
