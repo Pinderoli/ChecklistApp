@@ -10,7 +10,12 @@ import SwiftUI
 struct MyListsView: View {
     @State private var showingCreateList = false
     @EnvironmentObject var store: ChecklistStore
-
+    
+    private func deleteChecklists(at offsets: IndexSet) {
+        checklists.remove(atOffsets: offsets)
+        saveChecklists()
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -22,17 +27,21 @@ struct MyListsView: View {
                     Spacer()
                 } else {
                     List {
+
                         ForEach($store.checklists) { $checklist in
-                            NavigationLink(destination: ChecklistDetailView(checklist: $checklist)) {
+                            NavigationLink (destination: ChecklistDetailView (checklist: $checklist, onChecklistChange: saveChecklists)) {
                                 Text(checklist.title)
                             }
                         }
+                        .onDelete(perform: deleteChecklists)
                     }
                 }
             }
             .navigationTitle("My Lists")
-            .navigationBarItems(trailing: Button("Create List") {
-                showingCreateList.toggle()
+            .navigationBarItems(
+                leading: EditButton(),
+                trailing: Button("Create List") {
+                    showingCreateList.toggle()
             })
             .sheet(isPresented: $showingCreateList) {
                 CreateListView { newChecklist in
