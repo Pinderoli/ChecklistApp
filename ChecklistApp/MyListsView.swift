@@ -12,6 +12,8 @@ struct MyListsView: View {
     @State private var showingCreateList = false
     @State private var checklists: [Checklist] = []
     
+    private let checklistsKey = "SavedChecklists"
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -37,9 +39,28 @@ struct MyListsView: View {
             })
             .sheet(isPresented: $showingCreateList) {
                 CreateListView { newChecklist in
-                        checklists.append(newChecklist)
+                    checklists.append(newChecklist)
+                    saveChecklists()
                 }
             }
+            .onAppear {
+                loadChecklists()
+            }
+        }
+    }
+    
+    // MARK: - Persistence
+    
+    private func saveChecklists() {
+        if let encoded = try? JSONEncoder().encode(checklists) {
+            UserDefaults.standard.set(encoded, forKey: checklistsKey)
+        }
+    }
+
+    private func loadChecklists() {
+        if let savedData = UserDefaults.standard.data(forKey: checklistsKey),
+           let decoded = try? JSONDecoder().decode([Checklist].self, from: savedData) {
+            checklists = decoded
         }
     }
 }

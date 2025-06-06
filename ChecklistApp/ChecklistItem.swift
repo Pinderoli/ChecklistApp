@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ChecklistItem: Identifiable {
-    let id = UUID()
+struct ChecklistItem: Identifiable, Codable {
+    var id = UUID()
     let title: String
     var isChecked: Bool
 }

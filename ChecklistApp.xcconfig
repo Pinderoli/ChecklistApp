@@ -1,0 +1,8 @@
+//
+//  ChecklistApp.xcconfig
+//  ChecklistApp
+//
+//  Created by Marc Pinder on 05/06/2025.
+//
+
+CODE_SIGN_STYLE = Automatic
