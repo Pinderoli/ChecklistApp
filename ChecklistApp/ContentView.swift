@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    @StateObject private var store = ChecklistStore()
+
     var body: some View {
         TabView {
             MyListsView()
                 .tabItem {
                     Label("My Lists", systemImage: "checklist")
                 }
+                .environmentObject(store)
             
             SearchView()
                 .tabItem {
@@ -29,6 +33,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
                 }
+                .environmentObject(store)
         }
     }
 }

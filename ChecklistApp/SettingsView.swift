@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct SettingsView: View {
+
+    @State var showResetConfirmation: Bool = false
+    @EnvironmentObject var store: ChecklistStore
+
     var body: some View {
-        Text("This is the settings page")
+        NavigationView {
+            List {
+                Section("Reset") {
+                    Button("Reset Checklists") {
+                        showResetConfirmation = true
+                    }
+                    .alert(isPresented: $showResetConfirmation) {
+                        Alert(title: Text("Are you sure?"), message: Text("This will remove all your checklists and items."), primaryButton: .destructive(Text("Reset"), action: {
+                            store.reset()
+                        }), secondaryButton: .cancel())
+                    }
+                }
+            }
+            .navigationTitle(Text("Settings"))
+        }
     }
 }
 
