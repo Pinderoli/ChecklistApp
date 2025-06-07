@@ -10,24 +10,65 @@ import SwiftUI
 struct ChecklistDetailView: View {
     @Binding var checklist: Checklist
     var onChecklistChange: () -> Void
+    @State private var isEditing = false
+    @State private var newItemText = ""
 
+    private func deleteItems(at offsets: IndexSet) {
+        checklist.items.remove(atOffsets: offsets)
+        onChecklistChange()
+    }
+    
+    private func addItem() {
+        let trimmedText = newItemText.trimmingCharacters(in: .whitespaces)
+        guard !trimmedText.isEmpty else { return }
+        
+        checklist.items.append(ChecklistItem(title: trimmedText, isChecked: false))
+        newItemText = ""
+        onChecklistChange()
+    }
+    
     var body: some View {
-        List {
-            ForEach($checklist.items) { $item in
-                Toggle(isOn: $item.isChecked) {
-                    Text(item.title)
-                }
-                .onChange(of: item.isChecked) {
-                    onChecklistChange()
-                }
+        VStack(alignment: .leading, spacing: 12) {
+            if isEditing {
+                Text("Swipe to delete items")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
             }
-        }
-        .navigationTitle(checklist.title)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Reset") {
-                    for i in checklist.items.indices {
-                        checklist.items[i].isChecked = false
+            List {
+                ForEach($checklist.items) { $item in
+                    Toggle(isOn: $item.isChecked) {
+                        Text(item.title)
+                    }
+                    .onChange(of: item.isChecked) {
+                        onChecklistChange()
+                    }
+                }
+                .onDelete(perform: isEditing ? deleteItems : nil)
+                
+                if isEditing {
+                    HStack {
+                        TextField("Add new item", text: $newItemText)
+                        Button("Add") {
+                            addItem()
+                        }
+                    }
+                }
+                
+                
+            }
+            .navigationTitle(checklist.title)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(isEditing ? "Done" : "Edit") {
+                        isEditing.toggle()
+                    }
+                    Button("Reset") {
+                        for i in checklist.items.indices {
+                            checklist.items[i].isChecked = false
+                        }
+                        onChecklistChange()
                     }
                 }
             }
@@ -36,6 +77,14 @@ struct ChecklistDetailView: View {
 }
 
 
-//#Preview {
-//    ChecklistDetailView()
-//}
+#Preview {
+    ChecklistDetailView(checklist: .constant(Checklist(
+        title: "Packing List",
+        items: [
+            ChecklistItem(title: "Toothbrush", isChecked: false),
+            ChecklistItem(title: "Socks", isChecked: true),
+            ChecklistItem(title: "Charger", isChecked: false)
+        ]
+    )),
+    onChecklistChange: {})
+}

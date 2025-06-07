@@ -12,8 +12,8 @@ struct MyListsView: View {
     @EnvironmentObject var store: ChecklistStore
     
     private func deleteChecklists(at offsets: IndexSet) {
-        checklists.remove(atOffsets: offsets)
-        saveChecklists()
+        store.checklists.remove(atOffsets: offsets)
+        store.save()
     }
     
     var body: some View {
@@ -29,7 +29,7 @@ struct MyListsView: View {
                     List {
 
                         ForEach($store.checklists) { $checklist in
-                            NavigationLink (destination: ChecklistDetailView (checklist: $checklist, onChecklistChange: saveChecklists)) {
+                            NavigationLink(destination: ChecklistDetailView(checklist: $checklist, onChecklistChange: store.save)) {
                                 Text(checklist.title)
                             }
                         }
