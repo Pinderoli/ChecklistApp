@@ -9,6 +9,6 @@ import Foundation
 
 struct ChecklistItem: Identifiable, Codable {
     var id = UUID()
-    let title: String
+    var title: String
     var isChecked: Bool
 }
