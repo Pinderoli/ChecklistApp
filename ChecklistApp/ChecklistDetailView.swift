@@ -29,23 +29,34 @@ struct ChecklistDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if isEditing {
-                Text("Swipe to delete items")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
-            }
             List {
+                if isEditing {
+                    Text("Swipe to delete items. Hold and Drag items to reorder. Tap to edit names")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
+                }
                 ForEach($checklist.items) { $item in
-                    Toggle(isOn: $item.isChecked) {
-                        Text(item.title)
-                    }
-                    .onChange(of: item.isChecked) {
-                        onChecklistChange()
+                    if isEditing {
+                        TextField("Item", text: $item.title)
+                            .onChange(of: item.title) {
+                                onChecklistChange()
+                            }
+                    } else {
+                        Toggle(isOn: $item.isChecked) {
+                            Text(item.title)
+                        }
+                        .onChange(of: item.isChecked) {
+                            onChecklistChange()
+                        }
                     }
                 }
                 .onDelete(perform: isEditing ? deleteItems : nil)
+                .onMove { indices, newOffset in
+                    checklist.items.move(fromOffsets: indices, toOffset: newOffset)
+                    onChecklistChange()
+                }
                 
                 if isEditing {
                     HStack {
