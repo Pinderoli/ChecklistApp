@@ -18,22 +18,26 @@ struct MyListsView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                if store.checklists.isEmpty {
-                    Text("No lists yet!")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                        .padding(.top, 40)
-                    Spacer()
-                } else {
-                    List {
-
-                        ForEach($store.checklists) { $checklist in
-                            NavigationLink(destination: ChecklistDetailView(checklist: $checklist, onChecklistChange: store.save)) {
-                                Text(checklist.title)
+            ZStack {
+                Color("AppBackground").ignoresSafeArea()
+                VStack {
+                    if store.checklists.isEmpty {
+                        Text("No lists yet!")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                            .padding(.top, 40)
+                        Spacer()
+                    } else {
+                        List {
+                            
+                            ForEach($store.checklists) { $checklist in
+                                NavigationLink(destination: ChecklistDetailView(checklist: $checklist, onChecklistChange: store.save)) {
+                                    Text(checklist.title)
+                                }
                             }
+                            .onDelete(perform: deleteChecklists)
                         }
-                        .onDelete(perform: deleteChecklists)
+                        .scrollContentBackground(.hidden)
                     }
                 }
             }

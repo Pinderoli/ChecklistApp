@@ -14,19 +14,23 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                Section("Reset") {
-                    Button("Reset Checklists") {
-                        showResetConfirmation = true
-                    }
-                    .alert(isPresented: $showResetConfirmation) {
-                        Alert(title: Text("Are you sure?"), message: Text("This will remove all your checklists and items."), primaryButton: .destructive(Text("Reset"), action: {
-                            store.reset()
-                        }), secondaryButton: .cancel())
+            ZStack {
+                Color("AppBackground").ignoresSafeArea()
+                List {
+                    Section("Reset") {
+                        Button("Reset Checklists") {
+                            showResetConfirmation = true
+                        }
+                        .alert(isPresented: $showResetConfirmation) {
+                            Alert(title: Text("Are you sure?"), message: Text("This will remove all your checklists and items."), primaryButton: .destructive(Text("Reset"), action: {
+                                store.reset()
+                            }), secondaryButton: .cancel())
+                        }
                     }
                 }
+                .navigationTitle(Text("Settings"))
             }
-            .navigationTitle(Text("Settings"))
+            .scrollContentBackground(.hidden)
         }
     }
 }
