@@ -17,44 +17,48 @@ struct CreateListView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                TextField("List title", text: $listTitle)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                HStack {
-                    TextField("New item", text: $newItem)
+            ZStack {
+                Color("AppBackground").ignoresSafeArea()
+                VStack {
+                    TextField("List title", text: $listTitle)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Button("Add") {
-                        addItem()
+                        .padding()
+                    HStack {
+                        TextField("New item", text: $newItem)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        Button("Add") {
+                            addItem()
+                        }
+                        .disabled(newItem.trimmingCharacters(in: .whitespaces).isEmpty)
                     }
-                    .disabled(newItem.trimmingCharacters(in: .whitespaces).isEmpty)
-                }
-                .padding()
-
-                List {
-                    ForEach(items, id: \.self) { item in
-                        Text(item)
+                    .padding()
+                    
+                    List {
+                        ForEach(items, id: \.self) { item in
+                            Text(item)
+                        }
                     }
+                    
+                    Spacer()
                 }
-
-                Spacer()
-            }
-            .navigationTitle("Create List")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
+                .scrollContentBackground(.hidden)
+                .navigationTitle("Create List")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
                     }
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        let checklist = Checklist(
-                            title: listTitle.isEmpty ? "Untitled List" : listTitle,
-                            items: items.map { ChecklistItem(title: $0, isChecked: false) }
-                        )
-                        onsave?(checklist)
-                        dismiss()
+                    
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") {
+                            let checklist = Checklist(
+                                title: listTitle.isEmpty ? "Untitled List" : listTitle,
+                                items: items.map { ChecklistItem(title: $0, isChecked: false) }
+                            )
+                            onsave?(checklist)
+                            dismiss()
+                        }
                     }
                 }
             }

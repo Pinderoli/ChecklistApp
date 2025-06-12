@@ -28,47 +28,51 @@ struct ChecklistDetailView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if isEditing {
-                Text("Swipe to delete items")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
-            }
-            List {
-                ForEach($checklist.items) { $item in
-                    Toggle(isOn: $item.isChecked) {
-                        Text(item.title)
-                    }
-                    .onChange(of: item.isChecked) {
-                        onChecklistChange()
-                    }
-                }
-                .onDelete(perform: isEditing ? deleteItems : nil)
-                
+        ZStack {
+            Color("AppBackground").ignoresSafeArea()
+            VStack(alignment: .leading, spacing: 12) {
                 if isEditing {
-                    HStack {
-                        TextField("Add new item", text: $newItemText)
-                        Button("Add") {
-                            addItem()
-                        }
-                    }
+                    Text("Swipe to delete items")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
                 }
-                
-                
-            }
-            .navigationTitle(checklist.title)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button(isEditing ? "Done" : "Edit") {
-                        isEditing.toggle()
-                    }
-                    Button("Reset") {
-                        for i in checklist.items.indices {
-                            checklist.items[i].isChecked = false
+                List {
+                    ForEach($checklist.items) { $item in
+                        Toggle(isOn: $item.isChecked) {
+                            Text(item.title)
                         }
-                        onChecklistChange()
+                        .onChange(of: item.isChecked) {
+                            onChecklistChange()
+                        }
+                    }
+                    .onDelete(perform: isEditing ? deleteItems : nil)
+                    
+                    if isEditing {
+                        HStack {
+                            TextField("Add new item", text: $newItemText)
+                            Button("Add") {
+                                addItem()
+                            }
+                        }
+                    }
+                    
+                    
+                }
+                .scrollContentBackground(.hidden)
+                .navigationTitle(checklist.title)
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        Button(isEditing ? "Done" : "Edit") {
+                            isEditing.toggle()
+                        }
+                        Button("Reset") {
+                            for i in checklist.items.indices {
+                                checklist.items[i].isChecked = false
+                            }
+                            onChecklistChange()
+                        }
                     }
                 }
             }

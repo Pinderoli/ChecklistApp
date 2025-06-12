@@ -9,7 +9,10 @@ import SwiftUI
 
 struct NotificationView: View {
     var body: some View {
-        Text("This is the Notifications Page")
+        ZStack {
+            Color("AppBackground").ignoresSafeArea()
+            Text("This is the Notifications Page")
+        }
     }
 }
 
