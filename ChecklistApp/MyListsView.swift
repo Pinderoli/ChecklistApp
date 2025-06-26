@@ -54,9 +54,14 @@ struct MyListsView: View {
                     showingCreateList.toggle()
             })
             .sheet(isPresented: $showingCreateList) {
-                CreateSimpleListView { newChecklist in
-                    store.add(newChecklist)
-                }
+                ChooseListTypeView(
+                    onFinish: {
+                        showingCreateList = false
+                    },
+                    onSave: { newChecklist in
+                        store.add(newChecklist)
+                    }
+                )
             }
         }
     }

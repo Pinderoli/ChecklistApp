@@ -9,12 +9,15 @@ import SwiftUI
 
 struct CreateSimpleListView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var store: ChecklistStore
     @State private var newItem = ""
     @State private var items: [String] = []
     @State private var listTitle = ""
+    @State private var showDuplicateTitleAlert: Bool = false
     @State private var showMissingItemAlert: Bool = false
 
-    var onsave: ((Checklist) -> Void)?
+    var onSave: ((Checklist) -> Void)?
+    var onFinish: (() -> Void)?
     
     var body: some View {
         NavigationView {
@@ -54,11 +57,34 @@ struct CreateSimpleListView: View {
                             showMissingItemAlert = true
                             return
                         }
+                        let trimmedTitle = listTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                        var finalTitle = trimmedTitle
+                        
+                        if finalTitle.isEmpty {
+                            let existingTitles = store.checklists.map { $0.title }
+                            
+                            if !existingTitles.contains("Untitled List") {
+                                finalTitle = "Untitled List"
+                            } else {
+                                var number = 1
+                                while existingTitles.contains("Untitled List (\(number))") {
+                                    number += 1
+                                }
+                                finalTitle = "Untitled List (\(number))"
+                            }
+                        }
+                        
+                        if store.checklists.contains(where: { $0.title == finalTitle}) {
+                            showDuplicateTitleAlert = true
+                            return
+                        }
+                        
                         let checklist = Checklist(
-                            title: listTitle.isEmpty ? "Untitled List" : listTitle,
+                            title: finalTitle,
                             items: items.map { ChecklistItem(title: $0, isChecked: false) }
                         )
-                        onsave?(checklist)
+                        onSave?(checklist)
+                        onFinish?()
                         dismiss()
                     }
                 }
@@ -69,6 +95,11 @@ struct CreateSimpleListView: View {
         } message: {
             Text("Please add an item to the list.")
         }
+        .alert("Duplicate List Name", isPresented: $showDuplicateTitleAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("A list with this name already exists. Please choose a different name.")
+        }
     }
 
     func addItem() {
@@ -76,9 +107,11 @@ struct CreateSimpleListView: View {
         guard !trimmed.isEmpty else { return }
         items.append(trimmed)
         newItem = ""
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
 #Preview {
-    CreateListView()
+    CreateSimpleListView()
+        .environmentObject(ChecklistStore())
 }
