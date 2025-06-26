@@ -10,12 +10,18 @@ import SwiftUI
 struct ChecklistDetailView: View {
     @Binding var checklist: Checklist
     var onChecklistChange: () -> Void
+    var onChecklistDelete: () -> Void
     @State private var isEditing = false
     @State private var newItemText = ""
+    @State private var showDeleteListConfirmation = false
 
     private func deleteItems(at offsets: IndexSet) {
-        checklist.items.remove(atOffsets: offsets)
-        onChecklistChange()
+        if checklist.items.count == 1 && offsets.contains(0) {
+            showDeleteListConfirmation = true
+        } else {
+            checklist.items.remove(atOffsets: offsets)
+            onChecklistChange()
+        }
     }
     
     private func addItem() {
@@ -84,6 +90,16 @@ struct ChecklistDetailView: View {
                 }
             }
         }
+        .alert("Delete Entire List?", isPresented: $showDeleteListConfirmation) {
+            Button("Delete", role: .destructive) {
+                checklist.items.removeAll()
+                onChecklistChange()
+                onChecklistDelete()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Deleting this item will also delete the entire list")
+        }
     }
 }
 
@@ -97,5 +113,6 @@ struct ChecklistDetailView: View {
             ChecklistItem(title: "Charger", isChecked: false)
         ]
     )),
-    onChecklistChange: {})
+    onChecklistChange: {},
+    onChecklistDelete: {})
 }
