@@ -26,14 +26,6 @@ struct ChooseListTypeView: View {
                 Button("Simple List") {
                     navigateToSimpleList = true
                 }
-                
-                Button("Tabbed List (To Be Added)") {
-                    print("Not implemented yet")
-                }
-                
-                Button("Procedural List (To Be Added)") {
-                    print("Not implemented yet")
-                }
 
                 Spacer()
             }

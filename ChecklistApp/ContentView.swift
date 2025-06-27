@@ -19,16 +19,6 @@ struct ContentView: View {
                 }
                 .environmentObject(store)
             
-            SearchView()
-                .tabItem {
-                    Label("Search", systemImage: "magnifyingglass")
-                }
-            
-            NotificationView()
-                .tabItem {
-                    Label("Notifications", systemImage: "bell")
-                }
-            
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
