@@ -10,12 +10,18 @@ import SwiftUI
 struct ChecklistDetailView: View {
     @Binding var checklist: Checklist
     var onChecklistChange: () -> Void
+    var onChecklistDelete: () -> Void
     @State private var isEditing = false
     @State private var newItemText = ""
+    @State private var showDeleteListConfirmation = false
 
     private func deleteItems(at offsets: IndexSet) {
-        checklist.items.remove(atOffsets: offsets)
-        onChecklistChange()
+        if checklist.items.count == 1 && offsets.contains(0) {
+            showDeleteListConfirmation = true
+        } else {
+            checklist.items.remove(atOffsets: offsets)
+            onChecklistChange()
+        }
     }
     
     private func addItem() {
@@ -29,23 +35,34 @@ struct ChecklistDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if isEditing {
-                Text("Swipe to delete items")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
-            }
             List {
+                if isEditing {
+                    Text("Swipe to delete items. Hold and Drag items to reorder. Tap to edit names")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
+                }
                 ForEach($checklist.items) { $item in
-                    Toggle(isOn: $item.isChecked) {
-                        Text(item.title)
-                    }
-                    .onChange(of: item.isChecked) {
-                        onChecklistChange()
+                    if isEditing {
+                        TextField("Item", text: $item.title)
+                            .onChange(of: item.title) {
+                                onChecklistChange()
+                            }
+                    } else {
+                        Toggle(isOn: $item.isChecked) {
+                            Text(item.title)
+                        }
+                        .onChange(of: item.isChecked) {
+                            onChecklistChange()
+                        }
                     }
                 }
                 .onDelete(perform: isEditing ? deleteItems : nil)
+                .onMove { indices, newOffset in
+                    checklist.items.move(fromOffsets: indices, toOffset: newOffset)
+                    onChecklistChange()
+                }
                 
                 if isEditing {
                     HStack {
@@ -73,6 +90,16 @@ struct ChecklistDetailView: View {
                 }
             }
         }
+        .alert("Delete Entire List?", isPresented: $showDeleteListConfirmation) {
+            Button("Delete", role: .destructive) {
+                checklist.items.removeAll()
+                onChecklistChange()
+                onChecklistDelete()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Deleting this item will also delete the entire list")
+        }
     }
 }
 
@@ -86,5 +113,6 @@ struct ChecklistDetailView: View {
             ChecklistItem(title: "Charger", isChecked: false)
         ]
     )),
-    onChecklistChange: {})
+    onChecklistChange: {},
+    onChecklistDelete: {})
 }

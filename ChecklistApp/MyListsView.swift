@@ -29,7 +29,17 @@ struct MyListsView: View {
                     List {
 
                         ForEach($store.checklists) { $checklist in
-                            NavigationLink(destination: ChecklistDetailView(checklist: $checklist, onChecklistChange: store.save)) {
+                            NavigationLink(destination: ChecklistDetailView(
+                                checklist: $checklist,
+                                onChecklistChange: store.save,
+                                onChecklistDelete: {
+                                    if let index = store.checklists.firstIndex(where: { $0.id == checklist.id })
+                                    {
+                                        store.checklists.remove(at: index)
+                                        store.save()
+                                    }
+                                }
+                            )) {
                                 Text(checklist.title)
                             }
                         }
@@ -44,9 +54,14 @@ struct MyListsView: View {
                     showingCreateList.toggle()
             })
             .sheet(isPresented: $showingCreateList) {
-                CreateListView { newChecklist in
-                    store.add(newChecklist)
-                }
+                ChooseListTypeView(
+                    onFinish: {
+                        showingCreateList = false
+                    },
+                    onSave: { newChecklist in
+                        store.add(newChecklist)
+                    }
+                )
             }
         }
     }
