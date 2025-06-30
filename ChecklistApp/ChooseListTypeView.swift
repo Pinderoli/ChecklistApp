@@ -27,14 +27,17 @@ struct ChooseListTypeView: View {
                     navigateToSimpleList = true
                 }
                 
-                Button("Tabbed List (To Be Added)") {
-                    print("Not implemented yet")
-                }
-                
-                Button("Procedural List (To Be Added)") {
-                    print("Not implemented yet")
-                }
+//                Button("Tabbed List (To Be Added)") {
+//                    print("Not implemented yet")
+//                }
+//                
+//                Button("Procedural List (To Be Added)") {
+//                    print("Not implemented yet")
+//                }
 
+                Button("More list types coming soon ...") {}
+                    .disabled(true)
+                
                 Spacer()
             }
             
