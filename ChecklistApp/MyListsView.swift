@@ -10,7 +10,10 @@ import SwiftUI
 struct MyListsView: View {
     @State private var showingCreateList = false
     @EnvironmentObject var store: ChecklistStore
-    
+
+    @State private var editingChecklistIndex: Int? = nil
+    @State private var editingTitle: String = ""
+
     private func deleteChecklists(at offsets: IndexSet) {
         store.checklists.remove(atOffsets: offsets)
         store.save()
@@ -27,20 +30,28 @@ struct MyListsView: View {
                     Spacer()
                 } else {
                     List {
-
-                        ForEach($store.checklists) { $checklist in
+                        ForEach(store.checklists.indices, id: \.self) { index in
+                            let checklist = store.checklists[index]
                             NavigationLink(destination: ChecklistDetailView(
-                                checklist: $checklist,
+                                checklist: $store.checklists[index],
                                 onChecklistChange: store.save,
                                 onChecklistDelete: {
-                                    if let index = store.checklists.firstIndex(where: { $0.id == checklist.id })
-                                    {
-                                        store.checklists.remove(at: index)
+                                    if let idx = store.checklists.firstIndex(where: { $0.id == checklist.id }) {
+                                        store.checklists.remove(at: idx)
                                         store.save()
                                     }
                                 }
                             )) {
                                 Text(checklist.title)
+                            }
+                            .swipeActions(edge: .leading) {
+                                Button {
+                                    editingChecklistIndex = index
+                                    editingTitle = checklist.title
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                .tint(.blue)
                             }
                         }
                         .onDelete(perform: deleteChecklists)
@@ -62,6 +73,30 @@ struct MyListsView: View {
                         store.add(newChecklist)
                     }
                 )
+            }
+            .sheet(isPresented: Binding(get: { editingChecklistIndex != nil }, set: { if !$0 { editingChecklistIndex = nil } })) {
+                NavigationView {
+                    Form {
+                        Section(header: Text("Edit List Title")) {
+                            TextField("List Name", text: $editingTitle)
+                        }
+                    }
+                    .navigationTitle("Edit List")
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Save") {
+                                let index = editingChecklistIndex!
+                                store.checklists[index].title = editingTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+                                store.save()
+                                editingChecklistIndex = nil
+                            }
+                            .disabled(editingTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        }
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") { editingChecklistIndex = nil }
+                        }
+                    }
+                }
             }
         }
     }
