@@ -45,6 +45,9 @@ struct MyListsView: View {
                         }
                         .onDelete(perform: deleteChecklists)
                     }
+                    .safeAreaInset(edge: .top) {
+                        Color.clear.frame(height: 12)
+                    }
                 }
             }
             .navigationTitle("My Lists")

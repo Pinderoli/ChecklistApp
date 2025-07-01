@@ -75,6 +75,9 @@ struct ChecklistDetailView: View {
                 
                 
             }
+            .safeAreaInset(edge: .top) {
+                Color.clear.frame(height: 12)
+            }
             .navigationTitle(checklist.title)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {

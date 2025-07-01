@@ -26,9 +26,14 @@ struct ChooseListTypeView: View {
                 Button("Simple List") {
                     navigateToSimpleList = true
                 }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 16)
+                .background(Color(red: 247/255, green: 127/255, blue: 0/255))
+                .cornerRadius(12)
 
                 Spacer()
             }
+            
             
             .navigationDestination(isPresented: $navigateToSimpleList) {
                 CreateSimpleListView(
