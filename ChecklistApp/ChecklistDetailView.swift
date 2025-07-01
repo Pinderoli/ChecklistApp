@@ -35,6 +35,23 @@ struct ChecklistDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            if isEditing {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Tap below to edit list title:")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+
+                    TextField("List Title", text: $checklist.title)
+                        .font(.title3)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .onChange(of: checklist.title) {
+                            onChecklistChange()
+                        }
+                }
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
             List {
                 if isEditing {
                     Text("Swipe to delete items. Hold and Drag items to reorder. Tap to edit names")
@@ -79,7 +96,9 @@ struct ChecklistDetailView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(isEditing ? "Done" : "Edit") {
-                        isEditing.toggle()
+                        withAnimation {
+                            isEditing.toggle()
+                        }
                     }
                     Button("Reset") {
                         for i in checklist.items.indices {
