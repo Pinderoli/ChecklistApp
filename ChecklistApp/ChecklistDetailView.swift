@@ -59,6 +59,7 @@ struct ChecklistDetailView: View {
                         .foregroundColor(.gray)
                         .padding(.horizontal)
                         .padding(.bottom, 8)
+                        .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
                 }
                 ForEach($checklist.items) { $item in
                     if isEditing {
@@ -107,6 +108,9 @@ struct ChecklistDetailView: View {
                         onChecklistChange()
                     }
                 }
+            }
+            .safeAreaInset(edge: .top) {
+                Color.clear.frame(height: 8)
             }
         }
         .alert("Delete Entire List?", isPresented: $showDeleteListConfirmation) {
