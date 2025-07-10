@@ -139,3 +139,4 @@ struct ChecklistDetailView: View {
     onChecklistChange: {},
     onChecklistDelete: {})
 }
+
