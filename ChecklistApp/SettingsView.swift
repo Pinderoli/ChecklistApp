@@ -18,7 +18,7 @@ struct SettingsView: View {
                 Section("Reset") {
                     Button("Reset Checklists") {
                         showResetConfirmation = true
-                    }
+                    }.tint(Color(red: 255/255, green: 0/255, blue: 0/255))
                     .alert(isPresented: $showResetConfirmation) {
                         Alert(title: Text("Are you sure?"), message: Text("This will remove all your checklists and items."), primaryButton: .destructive(Text("Reset"), action: {
                             store.reset()

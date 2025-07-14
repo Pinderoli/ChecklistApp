@@ -26,20 +26,17 @@ struct ChooseListTypeView: View {
                 Button("Simple List") {
                     navigateToSimpleList = true
                 }
-                
-//                Button("Tabbed List (To Be Added)") {
-//                    print("Not implemented yet")
-//                }
-//                
-//                Button("Procedural List (To Be Added)") {
-//                    print("Not implemented yet")
-//                }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 16)
+                .background(Color(red: 247/255, green: 127/255, blue: 0/255))
+                .cornerRadius(12)
 
                 Button("More list types coming soon ...") {}
                     .disabled(true)
                 
                 Spacer()
             }
+            
             
             .navigationDestination(isPresented: $navigateToSimpleList) {
                 CreateSimpleListView(
