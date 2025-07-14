@@ -55,7 +55,7 @@ struct MyListsView: View {
                 leading: EditButton(),
                 trailing: Button("Create List") {
                     showingCreateList.toggle()
-            })
+                })
             .sheet(isPresented: $showingCreateList) {
                 ChooseListTypeView(
                     onFinish: {
