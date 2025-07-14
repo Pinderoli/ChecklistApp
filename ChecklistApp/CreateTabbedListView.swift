@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct CreateTabbedListView: View {
+    var onSave: ((Checklist) -> Void)?
+    var onFinish: (() -> Void)?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Create Tabbed List - Coming Soon")
+            .navigationTitle("Create Tabbed List")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        onFinish?()
+                    }
+                }
+            }
     }
 }
 
