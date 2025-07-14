@@ -31,6 +31,9 @@ struct ChooseListTypeView: View {
                 .background(Color(red: 247/255, green: 127/255, blue: 0/255))
                 .cornerRadius(12)
 
+                Button("More list types coming soon ...") {}
+                    .disabled(true)
+                
                 Spacer()
             }
             

@@ -33,6 +33,7 @@
 		D1A12FE32DE9FEED00621F92 /* ChecklistApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChecklistApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1A12FF02DE9FEEE00621F92 /* ChecklistAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChecklistAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1A12FFA2DE9FEEE00621F92 /* ChecklistAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChecklistAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D45D6C292E12A2A10089CE71 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		D4C7B69D2DF1F090000421CE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D4C7B69F2DF1F14F000421CE /* ChecklistApp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ChecklistApp.xcconfig; sourceTree = "<group>"; };
 		D4C7B6A12DF1F172000421CE /* local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = local.xcconfig; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		D1A12FDA2DE9FEEC00621F92 = {
 			isa = PBXGroup;
 			children = (
+				D45D6C292E12A2A10089CE71 /* readme.md */,
 				D4C7B6A12DF1F172000421CE /* local.xcconfig */,
 				D4C7B69F2DF1F14F000421CE /* ChecklistApp.xcconfig */,
 				D4C7B69D2DF1F090000421CE /* .gitignore */,
