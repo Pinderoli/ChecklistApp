@@ -42,7 +42,13 @@ struct MyListsView: View {
                                     }
                                 }
                             )) {
-                                Text(checklist.title)
+                                HStack {
+                                    Text("[\(checklist.type.rawValue)]")
+                                        .font(.subheadline)
+                                        .foregroundColor(Color(red: 247/255, green: 127/255, blue: 0/255))
+                                        .bold()
+                                    Text(checklist.title)
+                                }
                             }
                             .swipeActions(edge: .leading) {
                                 Button {

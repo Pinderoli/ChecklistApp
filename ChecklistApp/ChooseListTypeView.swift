@@ -10,6 +10,7 @@ import SwiftUI
 struct ChooseListTypeView: View {
     
     @State private var navigateToSimpleList: Bool = false
+    @State private var navigateToTabbedList: Bool = false
     var onFinish: (() -> Void)?
     var onSave: ((Checklist) -> Void)?
     
@@ -30,6 +31,14 @@ struct ChooseListTypeView: View {
                 .padding(.horizontal, 16)
                 .background(Color(red: 247/255, green: 127/255, blue: 0/255))
                 .cornerRadius(12)
+                
+                Button("Tabbed List") {
+                    navigateToTabbedList = true
+                }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 16)
+                .background(Color(red: 247/255, green: 127/255, blue: 0/255))
+                .cornerRadius(12)
 
                 Button("More list types coming soon ...") {}
                     .disabled(true)
@@ -40,6 +49,14 @@ struct ChooseListTypeView: View {
             
             .navigationDestination(isPresented: $navigateToSimpleList) {
                 CreateSimpleListView(
+                    onSave: onSave,
+                    onFinish: {
+                        onFinish?()
+                    }
+                )
+            }
+            .navigationDestination(isPresented: $navigateToTabbedList) {
+                CreateTabbedListView(
                     onSave: onSave,
                     onFinish: {
                         onFinish?()
