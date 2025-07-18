@@ -81,7 +81,8 @@ struct CreateSimpleListView: View {
                         
                         let checklist = Checklist(
                             title: finalTitle,
-                            items: items.map { ChecklistItem(title: $0, isChecked: false) }
+                            items: items.map { ChecklistItem(title: $0, isChecked: false) },
+                            type: .simple
                         )
                         onSave?(checklist)
                         onFinish?()
