@@ -17,5 +17,12 @@ struct Checklist: Identifiable, Encodable, Decodable {
     var id = UUID()
     var title: String
     var items: [ChecklistItem]
+    var tabs: [ChecklistTab]? = nil
     var type: ChecklistType = .simple
+}
+
+struct ChecklistTab: Identifiable, Codable {
+    var id = UUID()
+    var title: String
+    var items: [ChecklistItem]
 }
